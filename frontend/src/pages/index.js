@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL); // Updated here
+const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL); // Use the environment variable here
 
 export default function Home() {
   const [chatInput, setChatInput] = useState('');
@@ -9,15 +9,13 @@ export default function Home() {
   const [notifications, setNotifications] = useState([]);
   const [products, setProducts] = useState([]);
 
-  // Fetch products
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`) // Updated here
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`) // Use the environment variable
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error('Product fetch error:', err));
   }, []);
 
-  // Listen for chat and order notifications
   useEffect(() => {
     socket.on('connect', () => {
       console.log('✅ Connected to backend');
