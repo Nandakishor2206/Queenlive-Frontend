@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3001');
+const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL); // Updated here
 
 export default function Home() {
   const [chatInput, setChatInput] = useState('');
@@ -11,7 +11,7 @@ export default function Home() {
 
   // Fetch products
   useEffect(() => {
-    fetch('http://localhost:3001/products')
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`) // Updated here
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error('Product fetch error:', err));
@@ -46,7 +46,6 @@ export default function Home() {
   };
 
   const placeOrder = () => {
-    // Just sending static order for demo
     const sampleOrder = { productName: 'T-shirt', quantity: 1 };
     socket.emit('place-order', sampleOrder);
   };
